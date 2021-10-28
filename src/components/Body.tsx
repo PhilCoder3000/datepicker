@@ -28,17 +28,14 @@ export default function Body() {
       .map((item, index) => 
       (<BodyItem
         key={index}
-        onClick={() => setDay(item.num, index)}
+        onClick={() => setDay(item.num, item.grey === 0
+          ? 0
+          : item.grey < 0
+            ? state.month.id - 1
+            : state.month.id + 1)}
         column={item.column}
         current={item.num === state.day}
         grey={item.grey}
-        data-month={
-          item.grey === 0
-            ? 0
-            : item.grey < 0
-              ? state.month.id - 1
-              : state.month.id + 1
-        }
       >
         {item.num}
       </BodyItem>))}
