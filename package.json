@@ -1,0 +1,34 @@
+{
+  "name": "@webmens-ru/datepicker",
+  "version": "0.0.1",
+  "description": "Calendar",
+  "main": "./prod/index.js",
+  "module": "./prod/index.js",
+  "types": "./prod/index.d.ts",
+  "scripts": {
+    "build": "tsc && npm run create-assets",
+    "create-assets": "@powershell mkdir './prod/assets' && npm run copy-assets",
+    "copy-assets": "@powershell copy './src/assets/*' './prod/assets/'"
+  },
+  "files": [
+    "/prod"
+  ],
+  "repository": "https://github.com/webmens-ru/datepicker.git",
+  "author": "Philipp Zakharov",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "@types/react": "^17.0.33",
+    "@types/react-dom": "^17.0.10",
+    "@types/styled-components": "^5.1.15",
+    "install": "^0.13.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "styled-components": "^5.3.3",
+    "typescript": "^4.4.4"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}
