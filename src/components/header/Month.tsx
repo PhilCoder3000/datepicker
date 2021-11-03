@@ -30,7 +30,7 @@ export default function Month() {
     <MonthContainer onClick={setShowMonth} >
       <MonthInput type="text" disabled={true} value={state.month.title} />
       <MonthOptions show={state.showMonth}>
-        {monthArray.map(({ id, title }, index) => (
+        {monthArray.map(({title }, index) => (
           <MonthItem key={index} onClick={() => chooseMonth(index)}>
             {title}
           </MonthItem>

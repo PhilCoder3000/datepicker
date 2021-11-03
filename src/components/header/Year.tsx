@@ -30,7 +30,7 @@ export default function Year() {
     <YearContainer onClick={setShowYear}>
       <YearInput type="text" disabled={true} value={state.year.title} />
       <YearOptions show={state.showYear}>
-        {yearArray.map(({ id, title }, index) => (
+        {yearArray.map(({title }, index) => (
           <YearItem key={index} onClick={() => chooseYear(index)}>
             {title}
           </YearItem>
