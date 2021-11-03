@@ -1,6 +1,6 @@
 {
   "name": "@webmens-ru/datepicker",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Calendar",
   "main": "./prod/index.js",
   "module": "./prod/index.js",

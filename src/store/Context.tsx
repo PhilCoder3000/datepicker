@@ -45,6 +45,7 @@ export interface IState {
   minutes: number;
   fullDate: string;
   matchFullDate: boolean;
+  returnedFullDate: boolean;
 }
 
 const initYear = getYear()
@@ -65,6 +66,7 @@ export const initialState = {
   minutes: initMinutes,
   fullDate: "",
   matchFullDate: true,
+  returnedFullDate: false,
 };
 
 type Action = {type: "SHOW_CALENDAR"}
@@ -81,6 +83,7 @@ type Action = {type: "SHOW_CALENDAR"}
 | {type: "SET_TIME", hours: number, minutes: number}
 | {type: "SET_FULL_DATE", fullDate: string}
 | {type: "UPDATE_FULL_DATE"}
+| {type: "RETURN_FULL_DATE"}
 
 
 export const reducer = (state: IState, action: Action) => {
@@ -94,7 +97,7 @@ export const reducer = (state: IState, action: Action) => {
     case "HIDE_CALENDAR":
       const newValue = getValue(state)
       const newMatch = getNewMatch(newValue)
-      return { ...state, fullDate: newValue, showCalendar: false, matchFullDate: newMatch, };
+      return { ...state, fullDate: newValue, showCalendar: false, matchFullDate: newMatch, returnedFullDate: false};
     case "SET_YEAR":
       return { ...state, showYear: false, year: action.year };
     case "NEXT_YEAR":
@@ -120,12 +123,19 @@ export const reducer = (state: IState, action: Action) => {
         ...state,
         fullDate: action.fullDate,
         matchFullDate: getNewMatch(action.fullDate),
+        returnedFullDate: false,
       };
     case "UPDATE_FULL_DATE":
       return {
         ...state,
         fullDate: getValue(state),
+        returnedFullDate: false,
       };
+    case "RETURN_FULL_DATE":
+      return {
+        ...state,
+        returnedFullDate: true,
+      }
     default:
       return state;
   }
@@ -147,10 +157,11 @@ export default function DatePickerProvider({ children, setDate }: { children: JS
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    if(state.fullDate !== ''){
+    if(state.fullDate !== '' && !state.returnedFullDate){
       setDate(state.fullDate)
+      dispatch({type: "RETURN_FULL_DATE"})
     }
-  }, [state.fullDate, setDate])
+  }, [state.fullDate, setDate, state.returnedFullDate])
   
   return (
     <DatePickerContext.Provider value={{ state, dispatch }}>
