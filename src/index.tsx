@@ -5,9 +5,9 @@ import CalendarWindow from "./components/CalendarWindow";
 import DateField from "./components/DateField";
 import { IDatePicker } from "./models";
 
-export default function DatePicker({ calendarWidth, showTime=true, readOnly=true }: IDatePicker) {
+export default function DatePicker({ setDate, calendarWidth, showTime, readOnly=true }: IDatePicker) {
   return (
-    <DatePickerProvider>
+    <DatePickerProvider setDate={setDate}>
       <DatePickerStyle calendarWidth={calendarWidth}>
         <DateField readOnly={readOnly} />
         <CalendarWindow showTime={showTime} />

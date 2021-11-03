@@ -23,7 +23,7 @@ export const DatePickerStyle = styled.div`
 
 export const DateFieldStyle = styled.input`
   position: absolute;
-  padding: 10px 30px;
+  padding: 0px 30px;
   width: 100%;
   height: 100%;
   border: ${({ border }: { border: boolean }) => (border ? "1px solid red" : "1px solid #fff")};
@@ -171,7 +171,6 @@ export const MonthInput = styled.input`
   height: 100%;
   background: none;
   border: none;
-  text-align: center;
   font-size: 16px;
   color: #000;
   cursor: pointer;
@@ -188,6 +187,7 @@ export const MonthOptions = styled.div`
   opacity: ${({ show }: {show: boolean}) => (show ? 1 : 0)};
   transform: ${({ show }) =>
     show ? "translateY(0%) scaleY(1)" : "translateY(-50%) scaleY(0)"};
+    z-index: 1;
 `;
 
 export const MonthItem = styled.button`

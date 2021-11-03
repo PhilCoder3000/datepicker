@@ -1,4 +1,5 @@
 export interface IDatePicker {
+  setDate: (props: string) => void;
   calendarWidth: string;
   showTime: boolean;
   readOnly?: boolean;

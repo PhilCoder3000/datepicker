@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useContext } from "react";
+import React, { createContext, useReducer, useContext, useEffect } from "react";
 import { monthArray, TMonth, TYear, yearArray } from "./const";
 
 const date = new Date();
@@ -136,10 +136,22 @@ interface IContext {
   dispatch: (props: Action) => void;
 }
 
+interface IContext {
+  state: IState;
+  dispatch: (props: Action) => void;
+}
+
 export const DatePickerContext = createContext<IContext>({} as IContext);
 
-export default function DatePickerProvider({ children }: { children: JSX.Element }) {
+export default function DatePickerProvider({ children, setDate }: { children: JSX.Element, setDate: (props: string) => void; }) {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    if(state.fullDate !== ''){
+      setDate(state.fullDate)
+    }
+  }, [state.fullDate, setDate])
+  
   return (
     <DatePickerContext.Provider value={{ state, dispatch }}>
       {children}

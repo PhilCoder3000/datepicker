@@ -1,6 +1,6 @@
 {
   "name": "@webmens-ru/datepicker",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Calendar",
   "main": "./prod/index.js",
   "module": "./prod/index.js",
@@ -25,6 +25,7 @@
   "license": "MIT",
   "private": false,
   "devDependencies": {
+    "@types/node": "^16.11.6",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
     "@types/styled-components": "^5.1.15",
