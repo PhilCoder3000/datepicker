@@ -1,14 +1,14 @@
 import styled from "styled-components";
-import svgSprit from '../assets/main-ui-control.svg'
+import svgSprit from "../assets/main-ui-control.svg";
 
-export const DatePickerStyle = styled.div`
+export const DatePickerContainer = styled.div`
   position: relative;
-  width: ${({ calendarWidth }: { calendarWidth: string }) => calendarWidth};
+  width: ${({ mainWidth }: { mainWidth: string }) => mainWidth};
   height: 40px;
   display: flex;
   border: 1px solid #ccc;
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 2px;
     left: 2px;
@@ -16,56 +16,48 @@ export const DatePickerStyle = styled.div`
     height: 38px;
     background: url(${svgSprit}) 6px -232px no-repeat;
   }
-  * {
+  &,
+  & * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: #535c69;
     font-family: "Open Sans", sans-serif;
+    font-size: 14px;
+    outline: none;
   }
 `;
 
-export const DateFieldStyle = styled.input`
-  position: absolute;
-  padding: 0px 30px;
+export const InputFieldContainer = styled.div`
+  padding: 0 10px 0 30px;
   width: 100%;
   height: 100%;
-  border: ${({ border }: { border: boolean }) => (border ? "1px solid red" : "1px solid #fff")};
-  background: none;
-  outline: none;
-  cursor: pointer;
-`;
-
-export const InvalidMessage = styled.div`
-  position: absolute;
-  top: -110%;
-  padding: 3px 10px;
-  display: ${({ show }: { show: boolean }) => (show ? "flex" : "none")};
-  flex-direction: column;
-  align-items: center;
-  background: red;
-  border-radius: 5px;
-  color: #fff;
-  & p {
-    font-size: 12px;
-  }
-  & span {
-    font-size: 14px;
+  & > input {
+    width: 100%;
+    height: 90%;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
   }
 `;
 
-export const CalendarWindowStyle = styled.div`
+export const CalendarContainer = styled.div`
   position: absolute;
-  top: 105%;
+  top: ${({ isShow }: { isShow: boolean }) => (isShow ? "105%" : "200%")};
   z-index: 1;
   padding: 5px;
   width: 220px;
   height: auto;
   background: #ffffff;
-  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease-out;
-  opacity: ${({ show }: {show: boolean}) => (show ? 1 : 0)};
-  transform: ${({ show }) =>
-    show ? "translateY(0%) scaleY(1)" : "translateY(-50%) scaleY(0)"};
+  box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.9);
+  transition: top 300ms, opacity 300ms, scale 0ms;
+  opacity: ${({ isShow }) => (isShow ? "1" : "0")};
+  transform: ${({ isShow }: { isShow: boolean }) =>
+    isShow ? "scale(1)" : "scale(0)"};
 `;
 
-export const HeaderStyle = styled.div`
+export const HeaderContainer = styled.div`
   height: 40px;
   width: 100%;
   display: flex;
@@ -73,7 +65,7 @@ export const HeaderStyle = styled.div`
   align-items: center;
 `;
 
-export const HeaderButtonPrev = styled.button`
+export const BtnPrevContainer = styled.button`
   position: relative;
   width: 25px;
   height: 70%;
@@ -89,7 +81,7 @@ export const HeaderButtonPrev = styled.button`
     content: "";
     position: absolute;
     left: 35%;
-    top: 40%;
+    top: 35%;
     width: 0;
     height: 0;
     border-style: solid;
@@ -99,54 +91,21 @@ export const HeaderButtonPrev = styled.button`
   }
 `;
 
-export const HeaderButtonNext = styled(HeaderButtonPrev)`
+export const BtnNextContainer = styled(BtnPrevContainer)`
   &::before {
     left: 40%;
     transform: rotate(180deg);
   }
 `;
 
-export const DaysOfWeekStyle = styled.div`
-  margin-bottom: 5px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-  height: 15px;
-  background: #eee;
-  & p {
-    font-size: 10px;
-    color: #a9a9a9;
-  }
-`;
-
-export const BodyStyle = styled.div`
-  display: grid;
-  grid-template: auto / repeat(7, 1fr);
-`;
-
-export const BodyItemStyle = styled.button`
-  grid-column: ${({ column }: {column: number, current: boolean, color: string}) => column};
-  width: 100%;
-  height: 25px;
-  background: ${({ current }) => (current ? "#dce3ea" : "#ffffff")};
-  border: none;
-  border-bottom: 1px solid #f3f2ed;
-  color: ${({ color }) => color};
-  font-size: 12px;
-  font-weight: 400;
-  cursor: pointer;
-  &:hover {
-    background: #ccc;
-  }
-`;
-
 export const MonthContainer = styled.div`
   position: relative;
+  padding: 5px;
   width: 95px;
-  height: 80%;
+  height: 30px;
   border-radius: 5px;
   cursor: pointer;
+  user-select: none;
   &:hover {
     background: #eee;
   }
@@ -162,67 +121,87 @@ export const MonthContainer = styled.div`
     border-color: #000000 transparent transparent transparent;
     opacity: 0.15;
   }
-`;
-
-export const MonthInput = styled.input`
-  position: absolute;
-  padding-right: 15px;
-  width: 100%;
-  height: 100%;
-  background: none;
-  border: none;
-  font-size: 16px;
-  color: #000;
-  cursor: pointer;
-`;
-
-export const MonthOptions = styled.div`
-  position: absolute;
-  top: 100%;
-  width: 100%;
-  background: #fff;
-  overflow-x: hidden;
-  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease-out;
-  opacity: ${({ show }: {show: boolean}) => (show ? 1 : 0)};
-  transform: ${({ show }) =>
-    show ? "translateY(0%) scaleY(1)" : "translateY(-50%) scaleY(0)"};
+  & > p {
+    padding-right: 15px;
+    width: 100%;
+    height: 30px;
+    font-size: 16px;
+    color: #000;
+    cursor: pointer;
+  }
+  & > div {
+    position: absolute;
+    top: ${({ isShow }: { isShow: boolean }) => (isShow ? "-1px" : "10px")};
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border: 1px solid #eee;
     z-index: 1;
-`;
-
-export const MonthItem = styled.button`
-  width: 100%;
-  min-height: 25px;
-  background: none;
-  border: none;
-  font-size: 12px;
-  cursor: pointer;
-  &:hover {
-    background: #eee;
+    transition: top 300ms, opacity 300ms, scale 0ms;
+    opacity: ${({ isShow }) => (isShow ? "1" : "0")};
+    transform: ${({ isShow }: { isShow: boolean }) =>
+      isShow ? "scale(1)" : "scale(0)"};
+    & > p {
+      padding: 1px 4px;
+      font-size: 14px;
+      &:first-of-type {
+        padding: 5px 4px;
+        font-size: 16px;
+        border-bottom: 1px solid #eee;
+      }
+    }
   }
 `;
 
 export const YearContainer = styled(MonthContainer)`
-  width: 55px;
+  width: 60px;
+  & > div {
+    max-height: 200px;
+    overflow: auto;
+  }
 `;
 
-export const YearInput = styled(MonthInput)``;
-
-export const YearOptions = styled(MonthOptions)``;
-
-export const YearItem = styled(MonthItem)``;
-
-export const EnableTime = styled.button`
+export const DaysOfWeeContainer = styled.div`
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
   width: 100%;
-  height: 20px;
-  background: none;
-  border: none;
-  font-size: 10px;
-  opacity: 0.5;
-  cursor: pointer;
-  &:hover {
-    opacity: 1;
+  height: 15px;
+  background: #eee;
+  & p {
+    font-size: 10px;
+    color: #a9a9a9;
+    user-select: none;
   }
+`;
+
+export const BodyContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  & > p {
+    padding: 3px;
+    width: 30px;
+    height: 25px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+    cursor: pointer;
+    &:hover {
+      background: #dadada;
+    }
+  }
+  & > p:nth-of-type(7n),
+  & > p:nth-of-type(7n - 1) {
+    color: red;
+  }
+`;
+
+export const DayInCurrentMonth = styled.p`
+  background: ${({bg}: {bg : string}) => bg};
+`;
+
+export const DayInOtherMonth = styled(DayInCurrentMonth)`
+  opacity: 0.3;
 `;
 
 export const TimeContainer = styled.div`
@@ -324,5 +303,18 @@ export const Buttons = styled.div`
     &:last-of-type {
       margin-right: auto;
     }
+  }
+`;
+
+export const EnableTime = styled.button`
+  width: 100%;
+  height: 20px;
+  background: none;
+  border: none;
+  font-size: 10px;
+  opacity: 0.5;
+  cursor: pointer;
+  &:hover {
+    opacity: 1;
   }
 `;

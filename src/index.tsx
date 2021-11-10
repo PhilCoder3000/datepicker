@@ -1,17 +1,25 @@
 import React from "react";
-import DatePickerProvider from "./store/Context";
-import { DatePickerStyle } from "./styles";
-import CalendarWindow from "./components/CalendarWindow";
-import DateField from "./components/DateField";
+import Calendar from "./components/Calendar";
+import InputField from "./components/InputField";
 import { IDatePicker } from "./models";
+import DatePickerProvider from "./store";
+import { DatePickerContainer } from "./styles";
 
-export function DatePicker({ setDate, calendarWidth, showTime=false, readOnly=true }: IDatePicker) {
+export default function DatePicker({
+  onChangeDate,
+  mainWidth,
+  format = 'DD.MM.YYYY hh:mm',
+  initialValue = '',
+  isShowTime = true,
+  isReadOnly = true,
+}: IDatePicker) {
+
   return (
-    <DatePickerProvider setDate={setDate}>
-      <DatePickerStyle calendarWidth={calendarWidth}>
-        <DateField readOnly={readOnly} />
-        <CalendarWindow showTime={showTime} />
-      </DatePickerStyle>
+    <DatePickerProvider onChangeDate={onChangeDate}>
+      <DatePickerContainer mainWidth={mainWidth}>
+        <InputField isReadOnly={isReadOnly} format={format} initialValue={initialValue} isShowTime={isShowTime}/>
+        <Calendar isShowTime={isShowTime} />
+      </DatePickerContainer>
     </DatePickerProvider>
   );
 }

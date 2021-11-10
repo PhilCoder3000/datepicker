@@ -1,41 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
+import { useCustomContext } from "../../store";
 import { monthArray } from "../../store/const";
-import { useCustomContext } from "../../store/Context";
-import {
-  MonthContainer,
-  MonthInput,
-  MonthItem,
-  MonthOptions,
-} from "../../styles";
+import { MonthContainer } from "../../styles";
 
 export default function Month() {
-  const {state, dispatch} = useCustomContext();
-  const chooseMonth = (index: number) => {
-    dispatch({
-      type: "SET_MONTH",
-      month: monthArray[index],
-    });
-    dispatch({
-      type: "UPDATE_FULL_DATE",
-    });
+  const { state, dispatch } = useCustomContext();
+  const [isShow, setIsShow] = useState(false);
+
+  const selectMonth = (index: number) => {
+    dispatch({ type: "SET_MONTH", month: index });
   };
-  const setShowMonth = () => {
-    if(!state.showMonth){
-      dispatch({
-        type: "SHOW_MONTH",
-      });
-    }
-  }
+
   return (
-    <MonthContainer onClick={setShowMonth} >
-      <MonthInput type="text" disabled={true} value={state.month.title} />
-      <MonthOptions show={state.showMonth}>
-        {monthArray.map(({title }, index) => (
-          <MonthItem key={index} onClick={() => chooseMonth(index)}>
-            {title}
-          </MonthItem>
+    <MonthContainer
+      isShow={isShow}
+      onClick={() => setIsShow(!isShow)}
+      onMouseLeave={() => setIsShow(false)}
+    >
+      <p>{monthArray[state.month]}</p>
+      <div>
+        <p>{monthArray[state.month]}</p>
+        {monthArray.map((item, index) => (
+          <p
+            key={index}
+            onClick={() => selectMonth(index)}
+            style={{
+              color:
+                item === monthArray[state.month]
+                  ? "#ff0606"
+                  : "rgba(0, 0, 0, 0.8)",
+            }}
+          >
+            {item}
+          </p>
         ))}
-      </MonthOptions>
+      </div>
     </MonthContainer>
   );
 }

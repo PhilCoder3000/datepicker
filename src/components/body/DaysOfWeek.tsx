@@ -1,13 +1,13 @@
 import React from "react";
-import { DaysOfWeekStyle } from "../../styles";
+import { DaysOfWeeContainer } from "../../styles";
 
 export default function DaysOfWeek() {
   return (
-    <DaysOfWeekStyle>
+    <DaysOfWeeContainer>
       {names.map((item, index) => (
         <p key={index}>{item}</p>
       ))}
-    </DaysOfWeekStyle>
+    </DaysOfWeeContainer>
   );
 }
 

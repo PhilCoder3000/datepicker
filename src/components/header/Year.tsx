@@ -1,41 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
+import { useCustomContext } from "../../store";
 import { yearArray } from "../../store/const";
-import { useCustomContext } from "../../store/Context";
-import {
-  YearContainer,
-  YearInput,
-  YearItem,
-  YearOptions,
-} from "../../styles";
+import { YearContainer } from "../../styles";
 
 export default function Year() {
-  const {state, dispatch} = useCustomContext();
-  const chooseYear = (index: number) => {
-    dispatch({
-      type: "SET_YEAR",
-      year: yearArray[index],
-    });
-    dispatch({
-      type: "UPDATE_FULL_DATE",
-    });
+  const { state, dispatch } = useCustomContext();
+  const [isShow, setIsShow] = useState(false);
+
+  const selectYear = (item: number) => {
+    dispatch({ type: "SET_YEAR", year: item });
   };
-  const setShowYear = () => {
-    if(!state.showYear) {
-      dispatch({
-        type: "SHOW_YEAR",
-      });
-    }
-  }
+
   return (
-    <YearContainer onClick={setShowYear}>
-      <YearInput type="text" disabled={true} value={state.year.title} />
-      <YearOptions show={state.showYear}>
-        {yearArray.map(({title }, index) => (
-          <YearItem key={index} onClick={() => chooseYear(index)}>
-            {title}
-          </YearItem>
+    <YearContainer
+      isShow={isShow}
+      onClick={() => setIsShow(!isShow)}
+      onMouseLeave={() => setIsShow(false)}
+    >
+      <p>{state.year}</p>
+      <div>
+        <p>{state.year}</p>
+        {yearArray.map((item, index) => (
+          <p
+            key={index}
+            onClick={() => selectYear(item)}
+            style={{
+              color: item === state.year ? "#ff0606" : "rgba(0, 0, 0, 0.8)",
+            }}
+          >
+            {item}
+          </p>
         ))}
-      </YearOptions>
+      </div>
     </YearContainer>
   );
 }

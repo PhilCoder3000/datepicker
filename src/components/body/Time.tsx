@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useCustomContext } from "../../store/Context";
+import { useCustomContext } from "../../store";
 import {
   Buttons,
   EnableTime,
@@ -10,44 +10,94 @@ import {
 } from "../../styles";
 
 export default function Time() {
-  const {state, dispatch} = useCustomContext();
-  const [hours, setHours] = useState(state.hours < 10 ? '0' + state.hours : state.hours);
-  const [minutes, setMinutes] = useState(state.minutes < 10 ? '0' + state.minutes: state.minutes);
-  const enableTime = () => {
-    dispatch({ type: "ENABLE_TIME" });
-  };
-  if (!state.enableTime) {
-    return <EnableTime onClick={enableTime}>Установить время</EnableTime>;
+  const { state, dispatch } = useCustomContext();
+  const [isShow, setIsShow] = useState(true);
+
+  if (!isShow) {
+    return (
+      <EnableTime onClick={() => setIsShow(true)}>Установить время</EnableTime>
+    );
   }
 
-  const disableTime = () => {
-    dispatch({ type: "DISABLE_TIME" });
+  const incrementHours = () => {
+    if (typeof state.hours === "number") {
+      if (state.hours === 23) {
+        dispatch({ type: "SET_HOURS", hours: 1 });
+      } else {
+        dispatch({ type: "SET_HOURS", hours: state.hours + 1 });
+      }
+    } else {
+      dispatch({ type: "SET_HOURS", hours: 1 });
+    }
   };
+
+  const decrementHours = () => {
+    if (typeof state.hours === "number") {
+      if (state.hours === 1) {
+        dispatch({ type: "SET_HOURS", hours: 23 });
+      } else {
+        dispatch({ type: "SET_HOURS", hours: state.hours - 1 });
+      }
+    } else {
+      dispatch({ type: "SET_HOURS", hours: 23 });
+    }
+  };
+
+  const checkHours = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.match(/\d/)) {
+      const value = +e.target.value;
+      if (value >= 0 && value <= 23) {
+        dispatch({ type: "SET_HOURS", hours: value });
+      }
+    }
+    if (e.target.value === "") {
+      dispatch({ type: "SET_HOURS", hours: "" });
+    }
+  };
+
+  const checkMinutes = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.match(/\d/)) {
+      const value = +e.target.value;
+      if (value >= 0 && value <= 59) {
+        dispatch({ type: "SET_MINUTES", minutes: value });
+      }
+    }
+    if (e.target.value === "") {
+      dispatch({ type: "SET_MINUTES", minutes: "" });
+    }
+  };
+
+  const incrementMinutes = () => {
+    if (typeof state.minutes === "number") {
+      if (state.minutes === 59) {
+        dispatch({ type: "SET_MINUTES", minutes: 1 });
+      } else {
+        dispatch({ type: "SET_MINUTES", minutes: state.minutes + 1 });
+      }
+    } else {
+      dispatch({ type: "SET_MINUTES", minutes: 1 });
+    }
+  };
+
+  const decrementMinutes = () => {
+    if (typeof state.minutes === "number") {
+      if (state.minutes === 1) {
+        dispatch({ type: "SET_MINUTES", minutes: 59 });
+      } else {
+        dispatch({ type: "SET_MINUTES", minutes: state.minutes - 1 });
+      }
+    } else {
+      dispatch({ type: "SET_MINUTES", minutes: 1 });
+    }
+  };
+
   const setTime = () => {
-    dispatch({ type: "SET_TIME", hours: +hours, minutes: +minutes });
-    dispatch({ type: "HIDE_CALENDAR" });
+    dispatch({ type: "SET_IS_SHOW_CALENDAR", isShow: false });
+    dispatch({ type: "SET_IS_SELECTED_DATE", value: true });
   };
   const close = () => {
-    dispatch({ type: "HIDE_CALENDAR" });
+    dispatch({ type: "SET_IS_SHOW_CALENDAR", isShow: false });
   };
-  const checkHours = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-    setHours(+target.value > 23 ? 23: +target.value < 0 ? 0 : target.value)
-  };
-  const checkMinutes = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-    setMinutes(+target.value > 59 ? 59 : +target.value < 0 ? 0 : target.value)
-  };
-  const incrementHours = () => {
-    setHours(+hours === 23? '00': +hours < 9 ? '0' + (+hours + 1): +hours + 1)
-  }
-  const decrementHours = () => {
-    setHours(+hours === 0 ? '23' : +hours < 11 ? '0' + (+hours - 1): +hours - 1)
-  }
-  const incrementMinutes = () => {
-    setMinutes(+minutes === 59? '00': +minutes < 9 ? '0' + (+minutes + 1): +minutes + 1)
-  }
-  const decrementMinutes = () => {
-    setMinutes(+minutes === 0? '59': +minutes < 11 ? '0' + (+minutes - 1): +minutes - 1)
-  }
   return (
     <TimeContainer>
       <TimeSetting>
@@ -56,14 +106,14 @@ export default function Time() {
           <span onClick={incrementHours}></span>
           <span onClick={decrementHours}></span>
         </TimeButton>
-        <TimeInput type="text" value={hours} onChange={checkHours} />
+        <TimeInput type="text" value={state.hours} onChange={checkHours} />
         <span>:</span>
-        <TimeInput type="text" value={minutes} onChange={checkMinutes} />
+        <TimeInput type="text" value={state.minutes} onChange={checkMinutes} />
         <TimeButton>
           <span onClick={incrementMinutes}></span>
           <span onClick={decrementMinutes}></span>
         </TimeButton>
-        <button onClick={disableTime}>x</button>
+        <button onClick={() => setIsShow(false)}>x</button>
       </TimeSetting>
       <Buttons>
         <button onClick={setTime}>Выбрать</button>
