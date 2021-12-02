@@ -10,7 +10,7 @@ export default function InputField({
 }: {
   isReadOnly: boolean;
   format: string;
-  initialValue: string;
+  initialValue: number;
   isShowTime: boolean;
 }) {
   const { state, dispatch } = useCustomContext();
@@ -39,13 +39,20 @@ export default function InputField({
       isShow: !state.isShowCalendar,
     });
   };
+  const date = new Date(initialValue)
+  const initialDate = format.replace('DD', `${date.getDate()}`)
+    .replace('MM', `${date.getMonth() + 1}`)
+    .replace('YYYY', `${date.getFullYear()}`)
+    .replace('hh', `${date.getHours()}`)
+    .replace('mm', `${date.getMinutes()}`)
+
 
   return (
     <InputFieldContainer onClick={showCalendar}>
       <input
         type="text"
         readOnly={isReadOnly}
-        value={state.isSelectedDate ? value : initialValue}
+        value={state.isSelectedDate ? value : initialDate}
       />
     </InputFieldContainer>
   );

@@ -32,10 +32,7 @@ export default function Body() {
   };
 
   const isThisToday = (day: number, month: number, year: number) => {
-    const currentYear = new Date().getFullYear();
-    const currentMonth = new Date().getMonth();
-    const currentDay = new Date().getDate();
-    if(currentDay === day && currentMonth === month && currentYear === year){
+    if(state.day === day && state.month === month && state.year === year){
       return '#eee'
     }
     return '#fff';

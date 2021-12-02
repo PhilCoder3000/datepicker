@@ -11,6 +11,7 @@ interface IState {
   isShowCalendar: boolean;
   isReturnedDate: boolean;
   isSelectedDate: boolean;
+  isSetInitial: boolean;
 }
 
 const initialState = {
@@ -24,6 +25,7 @@ const initialState = {
   isShowCalendar: false,
   isReturnedDate: true,
   isSelectedDate: false,
+  isSetInitial: false,
 };
 
 type Action =
@@ -32,6 +34,7 @@ type Action =
   | { type: "PREV_MONTH" }
   | { type: "NEXT_MONTH" }
   | { type: "SET_DAY"; day: number }
+  | { type: "SET_INITIAL_DAY"; day: number }
   | { type: "SET_HOURS"; hours: number | string }
   | { type: "SET_MINUTES"; minutes: number | string }
   | { type: "SET_IS_SHOW_CALENDAR"; isShow: boolean }
@@ -46,14 +49,28 @@ const reducer = (state: IState, action: Action) => {
       return { ...state, month: action.month };
     case "PREV_MONTH":
       if (state.month === 0) {
-        return { ...state, month: 11, year: state.year - 1 };
+        return {
+          ...state,
+          month: 11,
+          year: state.year - 1
+        };
       }
       return { ...state, month: state.month - 1 };
     case "NEXT_MONTH":
       if (state.month === 11) {
-        return { ...state, month: 0, year: state.year + 1 };
+        return {
+          ...state,
+          month: 0,
+          year: state.year + 1
+        };
       }
       return { ...state, month: state.month + 1 };
+    case "SET_INITIAL_DAY":
+      return {
+        ...state,
+        day: action.day,
+        isSetInitial: true,
+      };
     case "SET_DAY":
       return {
         ...state,
@@ -89,9 +106,11 @@ const DatePickerContext = createContext<IContext>({} as IContext);
 export default function DatePickerProvider({
   children,
   onChangeDate,
+  initialValue,
 }: {
   children: JSX.Element;
   onChangeDate: (props: number) => void;
+  initialValue: number;
 }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -109,6 +128,14 @@ export default function DatePickerProvider({
       onChangeDate(date.getTime());
       dispatch({ type: "SET_IS_RETURNED_DATE", value: true });
     }
+    const date = new Date(initialValue);
+    if (!state.isSetInitial) {
+      dispatch({ type: "SET_INITIAL_DAY", day: date.getDate() });
+      dispatch({ type: "SET_MONTH", month: date.getMonth() + 1 });
+      dispatch({ type: "SET_YEAR", year: date.getFullYear() });
+      dispatch({ type: "SET_HOURS", hours: date.getHours() });
+      dispatch({ type: "SET_MINUTES", minutes: date.getMinutes() });
+    }
   }, [
     onChangeDate,
     state.day,
@@ -117,6 +144,9 @@ export default function DatePickerProvider({
     state.year,
     state.hours,
     state.minutes,
+    initialValue,
+    state.isSelectedDate,
+    state.isSetInitial,
   ]);
 
   return (
