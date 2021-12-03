@@ -1,6 +1,10 @@
 import React from "react";
 import { useCustomContext } from "../../store";
-import { BodyContainer, DayInCurrentMonth, DayInOtherMonth } from "../../styles";
+import {
+  BodyContainer,
+  DayInCurrentMonth,
+  DayInOtherMonth,
+} from "../../styles";
 
 export default function Body() {
   const { state, dispatch } = useCustomContext();
@@ -32,10 +36,10 @@ export default function Body() {
   };
 
   const isThisToday = (day: number, month: number, year: number) => {
-    if(state.day === day && state.month === month && state.year === year){
-      return '#eee'
+    if (state.day === day && state.visibleMonth === month && state.visibleYear === year) {
+      return "#eee";
     }
-    return '#fff';
+    return "#fff";
   };
 
   return (
@@ -51,7 +55,8 @@ export default function Body() {
           </DayInOtherMonth>
         ))}
       {getDaysArray(state.year, state.month).map((day) => (
-        <DayInCurrentMonth bg={isThisToday(day, state.month, state.year)}
+        <DayInCurrentMonth
+          bg={isThisToday(day, state.month, state.year)}
           key={day}
           onClick={() => chooseDayInCurrentMonth(day)}
         >

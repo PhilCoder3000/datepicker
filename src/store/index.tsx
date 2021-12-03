@@ -52,7 +52,7 @@ const reducer = (state: IState, action: Action) => {
         return {
           ...state,
           month: 11,
-          year: state.year - 1
+          year: state.year - 1,
         };
       }
       return { ...state, month: state.month - 1 };
@@ -61,7 +61,7 @@ const reducer = (state: IState, action: Action) => {
         return {
           ...state,
           month: 0,
-          year: state.year + 1
+          year: state.year + 1,
         };
       }
       return { ...state, month: state.month + 1 };
@@ -128,10 +128,11 @@ export default function DatePickerProvider({
       onChangeDate(date.getTime());
       dispatch({ type: "SET_IS_RETURNED_DATE", value: true });
     }
-    const date = new Date(initialValue);
+    
     if (!state.isSetInitial) {
+      const date = new Date(initialValue);
       dispatch({ type: "SET_INITIAL_DAY", day: date.getDate() });
-      dispatch({ type: "SET_MONTH", month: date.getMonth() + 1 });
+      dispatch({ type: "SET_MONTH", month: date.getMonth() });
       dispatch({ type: "SET_YEAR", year: date.getFullYear() });
       dispatch({ type: "SET_HOURS", hours: date.getHours() });
       dispatch({ type: "SET_MINUTES", minutes: date.getMinutes() });

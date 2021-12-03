@@ -39,13 +39,19 @@ export default function InputField({
       isShow: !state.isShowCalendar,
     });
   };
-  const date = new Date(initialValue)
-  const initialDate = format.replace('DD', `${date.getDate()}`)
-    .replace('MM', `${date.getMonth() + 1}`)
-    .replace('YYYY', `${date.getFullYear()}`)
-    .replace('hh', `${date.getHours()}`)
-    .replace('mm', `${date.getMinutes()}`)
-
+  const date = new Date(initialValue);
+  const initDay =
+    date.getDate() < 10 ? `0${date.getDate()}` : `${date.getDate()}`;
+  const initMonth =
+    date.getMonth() + 1 < 10
+      ? `0${date.getMonth() + 1}`
+      : `${date.getMonth() + 1}`;
+  const initialDate = format
+    .replace("DD", `${initDay}`)
+    .replace("MM", `${initMonth}`)
+    .replace("YYYY", `${date.getFullYear()}`)
+    .replace("hh", `${date.getHours()}`)
+    .replace("mm", `${date.getMinutes()}`);
 
   return (
     <InputFieldContainer onClick={showCalendar}>
