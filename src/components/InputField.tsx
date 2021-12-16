@@ -53,7 +53,7 @@ export default function InputField({
   const initMinutes = 
     date.getMinutes() < 10
       ? `0${date.getMinutes()}`
-      : `${date.getMinutes()}`
+      : `${date.getMinutes()}`;
   const initialDate = format
     .replace("DD", `${initDay}`)
     .replace("MM", `${initMonth}`)

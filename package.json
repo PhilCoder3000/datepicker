@@ -1,6 +1,6 @@
 {
   "name": "@webmens-ru/datepicker",
-  "version": "2.2.0",
+  "version": "2.2.3",
   "description": "Calendar",
   "main": "./prod/index.js",
   "module": "./prod/index.js",
@@ -34,6 +34,6 @@
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
     "@types/styled-components": "^5.1.15",
-    "typescript": "^4.4.4"
+    "typescript": "^4.5.4"
   }
 }
