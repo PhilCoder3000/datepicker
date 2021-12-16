@@ -46,12 +46,20 @@ export default function InputField({
     date.getMonth() + 1 < 10
       ? `0${date.getMonth() + 1}`
       : `${date.getMonth() + 1}`;
+  const initHour = 
+    date.getHours() < 10
+      ? `0${date.getHours()}`
+      : `${date.getHours()}`;
+  const initMinutes = 
+    date.getMinutes() < 10
+      ? `0${date.getMinutes()}`
+      : `${date.getMinutes()}`
   const initialDate = format
     .replace("DD", `${initDay}`)
     .replace("MM", `${initMonth}`)
     .replace("YYYY", `${date.getFullYear()}`)
-    .replace("hh", `${date.getHours()}`)
-    .replace("mm", `${date.getMinutes()}`);
+    .replace("hh", `${initHour}`)
+    .replace("mm", `${initMinutes}`);
 
   return (
     <InputFieldContainer onClick={showCalendar}>
