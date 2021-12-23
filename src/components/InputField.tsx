@@ -40,26 +40,12 @@ export default function InputField({
     });
   };
   const date = new Date(initialValue);
-  const initDay =
-    date.getDate() < 10 ? `0${date.getDate()}` : `${date.getDate()}`;
-  const initMonth =
-    date.getMonth() + 1 < 10
-      ? `0${date.getMonth() + 1}`
-      : `${date.getMonth() + 1}`;
-  const initHour = 
-    date.getHours() < 10
-      ? `0${date.getHours()}`
-      : `${date.getHours()}`;
-  const initMinutes = 
-    date.getMinutes() < 10
-      ? `0${date.getMinutes()}`
-      : `${date.getMinutes()}`;
   const initialDate = format
-    .replace("DD", `${initDay}`)
-    .replace("MM", `${initMonth}`)
+    .replace("DD", `${date.toLocaleString("ru", { day: "2-digit" })}`)
+    .replace("MM", `${date.toLocaleString("ru", { month: "2-digit" })}`)
     .replace("YYYY", `${date.getFullYear()}`)
-    .replace("hh", `${initHour}`)
-    .replace("mm", `${initMinutes}`);
+    .replace("hh", `${date.toLocaleString("ru", { hour: "2-digit" })}`)
+    .replace("mm", `${date.toLocaleString("ru", { minute: "2-digit" })}`);
 
   return (
     <InputFieldContainer onClick={showCalendar}>
