@@ -14,13 +14,10 @@ export default function InputField({
   isShowTime: boolean;
 }) {
   const { state, dispatch } = useCustomContext();
-  const day = state.day < 10 ? `0${state.day}` : `${state.day}`;
-  const month =
-    state.visibleMonth + 1 < 10
-      ? `0${state.visibleMonth + 1}`
-      : `${state.visibleMonth + 1}`;
-  const hours = state.hours < 10 ? `0${state.hours}` : `${state.hours}`;
-  const minutes = state.minutes < 10 ? `0${state.minutes}` : `${state.minutes}`;
+  const day = `0${state.day}`.slice(-2);
+  const month = `0${state.visibleMonth + 1}`.slice(-2);
+  const hours = `0${state.hours}`.slice(-2);
+  const minutes = `0${state.minutes}`.slice(-2);
 
   let value = format
     .replace("DD", day)
@@ -41,11 +38,12 @@ export default function InputField({
   };
   const date = new Date(initialValue);
   const initialDate = format
-    .replace("DD", `${date.toLocaleString("ru", { day: "2-digit" })}`)
-    .replace("MM", `${date.toLocaleString("ru", { month: "2-digit" })}`)
     .replace("YYYY", `${date.getFullYear()}`)
-    .replace("hh", `${date.toLocaleString("ru", { hour: "2-digit" })}`)
-    .replace("mm", `${date.toLocaleString("ru", { minute: "2-digit" })}`);
+    .replace("YY", `${date.getFullYear() % 100}`)
+    .replace("MM", `0${date.getMonth()}`.slice(-2))
+    .replace("DD", `0${date.getDate()}`.slice(-2))
+    .replace("hh", `0${date.getHours()}`.slice(-2))
+    .replace("mm", `0${date.getMinutes()}`.slice(-2));
 
   return (
     <InputFieldContainer onClick={showCalendar}>
