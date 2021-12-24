@@ -39,8 +39,8 @@ export default function InputField({
   const date = new Date(initialValue);
   const initialDate = format
     .replace("YYYY", `${date.getFullYear()}`)
-    .replace("YY", `${date.getFullYear() % 100}`)
-    .replace("MM", `0${date.getMonth()}`.slice(-2))
+    .replace("YY", `${date.getFullYear()}`.slice(-2))
+    .replace("MM", `0${date.getMonth() + 1}`.slice(-2))
     .replace("DD", `0${date.getDate()}`.slice(-2))
     .replace("hh", `0${date.getHours()}`.slice(-2))
     .replace("mm", `0${date.getMinutes()}`.slice(-2));
