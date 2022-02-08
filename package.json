@@ -1,14 +1,15 @@
 {
   "name": "@webmens-ru/datepicker",
-  "version": "2.2.6",
+  "version": "2.2.7",
   "description": "Calendar",
   "main": "./prod/index.js",
   "module": "./prod/index.js",
   "types": "./prod/index.d.ts",
   "scripts": {
-    "build": "tsc && npm run create-assets",
-    "create-assets": "@powershell mkdir './prod/assets' && npm run copy-assets",
-    "copy-assets": "@powershell copy './src/assets/*' './prod/assets/'"
+    "build": "npm run tsc-build && npm run git && npm run publish-package",
+    "tsc-build": "@powershell rm -r './prod' && tsc && @powershell cp -r './src/assets' './prod/'",
+    "git": "git add . && git commit -m '2.0.2' && git push --all",
+    "publish-package": "npm publish --access public"
   },
   "files": [
     "/prod"
