@@ -1,7 +1,7 @@
 import React from "react";
 import { DaysOfWeeContainer } from "../../styles";
 
-export default function DaysOfWeek() {
+export const DaysOfWeek = React.memo(() => {
   return (
     <DaysOfWeeContainer>
       {names.map((item, index) => (
@@ -9,6 +9,6 @@ export default function DaysOfWeek() {
       ))}
     </DaysOfWeeContainer>
   );
-}
+});
 
 const names = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];

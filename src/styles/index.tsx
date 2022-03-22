@@ -3,14 +3,15 @@ import svgSprit from "../assets/main-ui-control.svg";
 
 export const DatePickerContainer = styled.div`
   position: relative;
-  width: ${({ mainWidth }: { mainWidth: string }) => mainWidth};
+  width: ${({ fieldWidth }: { fieldWidth: string }) => fieldWidth};
   height: 40px;
   display: flex;
   border: 1px solid #ccc;
+  cursor: pointer;
   &::before {
     content: "";
     position: absolute;
-    top: 2px;
+    top: 0px;
     left: 2px;
     width: 35px;
     height: 38px;

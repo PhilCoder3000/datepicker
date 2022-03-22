@@ -1,41 +1,43 @@
-import React, { useRef,useEffect } from "react";
-import { useCustomContext } from "../store";
+import React, { useEffect } from "react";
+import { useShowControl } from "../hooks/useShowControl";
+import { useCustomContext } from "../hooks/useReducerMiddleware";
 import { CalendarContainer, HeaderContainer } from "../styles";
-import Body from "./body/Body";
-import DaysOfWeek from "./body/DaysOfWeek";
-import Time from "./body/Time";
-import BtnNext from "./header/BtnNext";
-import BtnPrev from "./header/BtnPrev";
-import Month from "./header/Month";
-import Year from "./header/Year";
+import { Body } from "./body/Body";
+import { DaysOfWeek } from "./body/DaysOfWeek";
+import { Time } from "./body/Time";
+import { Dropdown } from "./header/Dropdown";
+import { MonthBtn } from "./header/MonthBtn";
 
-export default function Calendar({ isShowTime }: { isShowTime: boolean }) {
+export function Calendar() {
   const { state, dispatch } = useCustomContext();
-  const ref = useRef<HTMLDivElement>(null);
+
+  const { ref, isShow, setShow } = useShowControl();
 
   useEffect(() => {
-    function listener(this: HTMLElement, e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node) && state.isShowCalendar) {
-        dispatch({ type: "SET_IS_SHOW_CALENDAR", isShow: false });
-      }
+    if (isShow !== state.isShowCalendar) {
+      setShow(state.isShowCalendar);
     }
-    document.body.addEventListener("click", listener);
-    return () => {
-      document.body.removeEventListener("click", listener);
-    };
-  }, [dispatch,state.isShowCalendar]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setShow, state.isShowCalendar]);
+
+  useEffect(() => {
+    if (isShow !== state.isShowCalendar) {
+      dispatch({ type: "SET_IS_SHOW_CALENDAR", isShow });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, isShow]);
 
   return (
-    <CalendarContainer isShow={state.isShowCalendar} ref={ref}>
+    <CalendarContainer isShow={isShow} ref={ref}>
       <HeaderContainer>
-        <BtnPrev />
-        <Month />
-        <Year />
-        <BtnNext />
+        <MonthBtn dir="prev" />
+        <Dropdown variant="month" />
+        <Dropdown variant="year" />
+        <MonthBtn dir="next" />
       </HeaderContainer>
       <DaysOfWeek />
       <Body />
-      {isShowTime && <Time />}
+      {state.isShowTime && <Time />}
     </CalendarContainer>
   );
 }

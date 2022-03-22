@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useCustomContext } from "../../store";
+import { useCustomContext } from "../../hooks/useReducerMiddleware";
 import {
   Buttons,
   EnableTime,
@@ -9,7 +9,7 @@ import {
   TimeSetting,
 } from "../../styles";
 
-export default function Time() {
+export function Time() {
   const { state, dispatch } = useCustomContext();
   const [isShow, setIsShow] = useState(true);
 
@@ -93,11 +93,12 @@ export default function Time() {
 
   const setTime = () => {
     dispatch({ type: "SET_IS_SHOW_CALENDAR", isShow: false });
-    dispatch({ type: "SET_IS_SELECTED_DATE", value: true });
   };
+
   const close = () => {
     dispatch({ type: "SET_IS_SHOW_CALENDAR", isShow: false });
   };
+
   return (
     <TimeContainer>
       <TimeSetting>

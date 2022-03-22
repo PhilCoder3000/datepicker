@@ -1,13 +1,14 @@
 import React from "react";
-import { useCustomContext } from "../../store";
+import { useCustomContext } from "../../hooks/useReducerMiddleware";
 import {
   BodyContainer,
   DayInCurrentMonth,
   DayInOtherMonth,
 } from "../../styles";
+import { middlewareMutation } from "../../utils/middleware";
 
-export default function Body() {
-  const { state, dispatch } = useCustomContext();
+export function Body() {
+  const { state, dispatchMutationMiddleware } = useCustomContext();
 
   const daysOfPastMonth = getDaysArray(state.year, state.month - 1).slice(
     -whatDayOfWeek(state.year, state.month, 1) + 1,
@@ -24,19 +25,25 @@ export default function Body() {
   );
 
   const chooseDayInPastMonth = (day: number) => {
-    dispatch({ type: "SET_DAY", day });
-    dispatch({ type: "PREV_MONTH" });
+    dispatchMutationMiddleware(
+      { type: "SET_DAY", day, month: "prev" },
+      middlewareMutation,
+    );
   };
+
   const chooseDayInCurrentMonth = (day: number) => {
-    dispatch({ type: "SET_DAY", day });
+    dispatchMutationMiddleware({ type: "SET_DAY", day }, middlewareMutation);
   };
+
   const chooseDayInNextMonth = (day: number) => {
-    dispatch({ type: "SET_DAY", day });
-    dispatch({ type: "NEXT_MONTH" });
+    dispatchMutationMiddleware(
+      { type: "SET_DAY", day, month: "next" },
+      middlewareMutation,
+    );
   };
 
   const isThisToday = (day: number, month: number, year: number) => {
-    if (state.day === day && state.visibleMonth === month && state.visibleYear === year) {
+    if (state.day === day && state.month === month && state.year === year) {
       return "#eee";
     }
     return "#fff";
